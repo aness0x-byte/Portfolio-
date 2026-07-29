@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anes Larbi | Video Editor Portfolio</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Earthy Brown & Creamy Cream Palette
+                        baseBg: '#FFF5E1', // Creamy Cream (Base Background)
+                        altBg: '#F8EAD4', // Slightly darker cream for alternating sections
+                        accent: '#8B4513', // Earthy Brown (Primary Accent/Text)
+                        cream: '#8B4513', // Repurposing 'cream' var to brown to flip the theme
+                        muted: 'rgba(139, 69, 19, 0.7)', // Earthy Brown with opacity for softer text
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom styles for animations and specific premium touches */
+        body {
+            background-color: #FFF5E1; /* Creamy Cream Base */
+            color: #8B4513; /* Earthy Brown text */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Glassmorphism effect for sticky nav */
+        .glass-nav {
+            background: rgba(255, 245, 225, 0.85); /* RGB of #FFF5E1 */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(139, 69, 19, 0.1); /* Brown border */
+        }
+
+        /* Fade up animation utility */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Video container styling to look sleek */
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.15); /* Soft brown shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #8B4513; /* Brown placeholder before load */
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25); /* Adjusted brown shadow */
+        }
+        
+        .video-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(139,69,19,0.7) 0%, transparent 60%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .video-container:hover::before {
+            opacity: 1;
+        }
+
+        /* Aspect ratios for responsive videos */
+        .aspect-w-16 { position: relative; padding-bottom: 56.25%; } /* 16:9 */
+        .aspect-w-9 { position: relative; padding-bottom: 177.77%; } /* 9:16 for short form */
+        
+        .aspect-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Filter to make images blend with the theme */
+            filter: sepia(0.3) hue-rotate(-20deg) saturate(1.2);
+            mix-blend-mode: multiply;
+        }
+
+        /* Subtle glow for buttons */
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(139, 69, 19, 0.2); 
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(139, 69, 19, 0.4);
+            transform: scale(1.02);
+        }
+        
+        /* Intro Video Border Style */
+        .intro-video-wrapper {
+            position: relative;
+            border-radius: 24px;
+            padding: 4px;
+            background: linear-gradient(135deg, #8B4513, #FFF5E1);
+            box-shadow: 0 25px 50px -12px rgba(139, 69, 19, 0.3);
+        }
+        .intro-video-inner {
+            background-color: #FFF5E1;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-accent selection:bg-accent selection:text-baseBg">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 py-4">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-tighter text-accent">
+                Anes<span class="opacity-70">Larbi</span>.
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#long-form" class="hover:opacity-70 transition-opacity duration-200 text-accent">Long Form</a>
+                <a href="#short-form" class="hover:opacity-70 transition-opacity duration-200 text-accent">Short Form</a>
+                <a href="#contact" class="hover:opacity-70 transition-opacity duration-200 text-accent">Contact</a>
+            </div>
+            <a href="https://wa.me/213665005205" target="_blank" class="hidden md:inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-baseBg bg-accent rounded-full hover:bg-accent/90 transition-all duration-300 shadow-md">
+                Book a Call
+            </a>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-accent hover:opacity-70 relative z-[60] p-2 focus:outline-none">
+            <a href="https://wa.me/213665005205" target="_blank" class="mobile-link mt-4 inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-cream bg-accent/10 border border-accent/20 rounded-full hover:bg-accent/20 transition-all duration-300">
+                Book a Call
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-baseBg/95 backdrop-blur-xl flex flex-col justify-center items-center opacity-0 pointer-events-none transition-all duration-300 md:hidden">
+        <div class="flex flex-col space-y-8 text-center fade-up" id="mobile-menu-content">
+            <a href="#long-form" class="mobile-link text-3xl font-bold text-accent hover:opacity-70 transition-opacity duration-200">Long Form</a>
+            <a href="#short-form" class="mobile-link text-3xl font-bold text-accent hover:opacity-70 transition-opacity duration-200">Short Form</a>
+            <a href="#contact" class="mobile-link text-3xl font-bold text-accent hover:opacity-70 transition-opacity duration-200">Contact</a>
+            <a href="https://wa.me/213665005205" target="_blank" class="mobile-link w-full mt-8 inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-baseBg bg-accent rounded-full hover:bg-accent/90 transition-all duration-300 shadow-lg">
+                Book a Call
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Abstract Gradient Background Element -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
+            <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-[#8B4513] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
+            <div class="absolute bottom-1/4 left-1/2 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center fade-up w-full">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-accent/10 border border-accent/20 text-xs font-bold tracking-widest text-accent uppercase mb-8">
+                Documentary & Real Estate Editor
+            </span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-accent tracking-tighter leading-[1.1] mb-8">
+                Crafting Visual Stories That <br class="hidden md:block" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#8B4513] to-accent/70">Command Attention.</span>
+            </h1>
+            <p class="text-lg md:text-2xl text-muted max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
+                I'm Anes Larbi. I transform raw footage into compelling narratives, specializing in immersive documentaries and high-end real estate media.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full px-4 sm:px-0 max-w-sm sm:max-w-none mx-auto mb-20">
+                <a href="#long-form" class="w-full sm:w-auto px-10 py-4 rounded-full bg-transparent border-2 border-accent text-accent font-bold hover:bg-accent/5 transition-colors duration-300">
+                    View Portfolio
+                </a>
+                <a href="https://wa.me/213665005205" target="_blank" class="w-full sm:w-auto px-10 py-4 rounded-full bg-accent text-baseBg font-bold hover:bg-accent/90 shadow-lg transition-all duration-300">
+                    Book a Call
+                </a>
+            </div>
+
+            <!-- Intro Video Section (Added as requested previously) -->
+            <div class="w-full max-w-4xl mx-auto px-4 sm:px-0 mt-8 mb-12 fade-up" style="transition-delay: 300ms;">
+                <div class="intro-video-wrapper">
+                    <div class="intro-video-inner group cursor-pointer bg-accent/10 flex items-center justify-center relative">
+                        <!-- Placeholder for Intro Video (e.g., YouTube embed or HTML5 Video) -->
+                        <div class="absolute inset-0 bg-baseBg z-0">
+                             <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-30" alt="Video Background">
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center">
+                             <div class="w-20 h-20 rounded-full bg-accent/20 backdrop-blur-md flex items-center justify-center border border-accent/40 group-hover:scale-110 group-hover:bg-accent/30 transition-all duration-300 mb-4 shadow-xl">
+                                <i class="fas fa-play text-accent text-3xl ml-2"></i>
+                            </div>
+                            <span class="text-accent font-bold tracking-wide uppercase text-sm">Watch Intro Video</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-70">
+            <i class="fas fa-arrow-down text-accent"></i>
+        </div>
+    </section>
+
+    <!-- Section: Long-Form Video -->
+    <section id="long-form" class="py-20 md:py-32 relative bg-altBg border-t border-accent/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="max-w-3xl mb-16 fade-up">
+                <h2 class="text-4xl md:text-5xl font-black text-accent mb-6 tracking-tight">Cinematic Storytelling</h2>
+                <p class="text-muted text-xl font-medium leading-relaxed">
+                    Immersive storytelling designed to captivate audiences. Perfect for deep-dive documentaries and sweeping real estate tours. Characterized by precise pacing, cinematic color grading, and meticulous sound design.
+                </p>
+            </div>
+
+            <!-- Grid Layout for Long Form -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 fade-up" style="transition-delay: 200ms;">
+                
+                <!-- Project 1 -->
+                <div class="group cursor-pointer">
+                    <div class="video-container aspect-w-16 mb-6">
+                        <!-- Using a placeholder image with a play button overlay for performance, 
+                             in reality, this might be a customized video player or embed -->
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop" alt="Project 1 Thumbnail" class="aspect-content rounded-xl transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-accent/10 transition-colors duration-300 z-10">
+                            <div class="w-16 h-16 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-play text-accent text-xl ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-2xl font-bold text-accent">The Art of Silence</h3>
+                            <span class="text-xs font-bold bg-accent/10 text-accent px-2 py-1 rounded">12:45</span>
+                        </div>
+                        <p class="text-muted text-sm font-medium">Mini-Documentary • Sound Design</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="group cursor-pointer">
+                    <div class="video-container aspect-w-16 mb-6">
+                        <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=2000&auto=format&fit=crop" alt="Project 2 Thumbnail" class="aspect-content rounded-xl transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-accent/10 transition-colors duration-300 z-10">
+                            <div class="w-16 h-16 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-play text-accent text-xl ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-2xl font-bold text-accent">Urban Echoes</h3>
+                            <span class="text-xs font-bold bg-accent/10 text-accent px-2 py-1 rounded">08:20</span>
+                        </div>
+                        <p class="text-muted text-sm font-medium">Visual Essay • Motion Graphics</p>
+                    </div>
+                </div>
+                
+                 <!-- Project 3 (Full width span on md screens for emphasis) -->
+                 <div class="group cursor-pointer md:col-span-2">
+                    <div class="video-container aspect-w-16 md:pb-[35%] mb-6">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2070&auto=format&fit=crop" alt="Project 3 Thumbnail" class="aspect-content rounded-xl transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-accent/10 transition-colors duration-300 z-10">
+                            <div class="w-20 h-20 rounded-full bg-baseBg flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-play text-accent text-2xl ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-end bg-baseBg p-6 rounded-2xl shadow-sm border border-accent/10">
+                        <div>
+                            <h3 class="text-3xl font-black text-accent mb-3">Luxury Villa Tour: The Genesis</h3>
+                            <p class="text-muted text-base font-medium max-w-2xl">High-end real estate showcase featuring dynamic drone b-roll integration, custom lower thirds, and seamless narrative flow designed to sell the lifestyle.</p>
+                        </div>
+                        <span class="text-sm font-bold bg-accent/10 text-accent px-3 py-1.5 rounded-md mt-4 md:mt-0">15:10</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Short-Form Videos -->
+    <section id="short-form" class="py-20 md:py-32 relative bg-baseBg border-t border-accent/10">
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col items-center text-center max-w-3xl mx-auto mb-20 fade-up">
+                <span class="text-accent bg-accent/10 px-3 py-1 rounded-full font-bold tracking-widest text-xs mb-4 uppercase">Property & Story Hooks</span>
+                <h2 class="text-4xl md:text-5xl font-black text-accent mb-6 tracking-tight">Vertical Impact</h2>
+                <p class="text-muted text-xl font-medium leading-relaxed">
+                    Designed for the scroll. These pieces are engineered to hook viewers instantly, whether teasing a new documentary release or highlighting a property's best features for TikTok, Reels, or Shorts.
+                </p>
+            </div>
+
+            <!-- Grid Layout for Short Form (3 columns) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 fade-up" style="transition-delay: 200ms;">
+                
+                <!-- Short Form 1: Cinematic -->
+                <div class="flex flex-col items-center group">
+                    <div class="w-full max-w-[320px]">
+                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-transparent group-hover:border-accent/20 transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1974&auto=format&fit=crop" alt="Cinematic Short" class="aspect-content transition-transform duration-700 group-hover:scale-105">
+                            
+                            <!-- Play Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-transparent transition-colors duration-300 z-10">
+                                <div class="w-14 h-14 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                                    <i class="fas fa-play text-accent text-lg ml-1"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Style Label -->
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="px-4 py-1.5 bg-baseBg shadow-md rounded-full text-xs font-bold text-accent">
+                                    Cinematic
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-center bg-altBg w-full py-4 px-2 rounded-xl">
+                            <h3 class="text-xl font-bold text-accent mb-1">Atmospheric Teaser</h3>
+                            <p class="text-muted text-sm font-medium">Mood, slow motion, emotive sound.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Short Form 2: Fast-Paced -->
+                <div class="flex flex-col items-center group md:-mt-12"> <!-- Staggered layout on desktop -->
+                    <div class="w-full max-w-[320px]">
+                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-accent/30 group-hover:border-accent transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1616423640778-28d1b53229bd?q=80&w=1974&auto=format&fit=crop" alt="Fast Paced Short" class="aspect-content transition-transform duration-700 group-hover:scale-105">
+                            
+                            <!-- Play Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-transparent transition-colors duration-300 z-10">
+                                <div class="w-14 h-14 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                                    <i class="fas fa-play text-accent text-lg ml-1"></i>
+                                </div>
+                            </div>
+
+                            <!-- Style Label -->
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="px-4 py-1.5 bg-accent shadow-md rounded-full text-xs font-bold text-baseBg">
+                                    Fast-Paced
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-center bg-altBg w-full py-4 px-2 rounded-xl">
+                            <h3 class="text-xl font-bold text-accent mb-1">Energy Cut</h3>
+                            <p class="text-muted text-sm font-medium">Rapid cuts, beat-synced action.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Short Form 3: Social Media -->
+                <div class="flex flex-col items-center group">
+                    <div class="w-full max-w-[320px]">
+                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-transparent group-hover:border-accent/20 transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" alt="Social Media Short" class="aspect-content transition-transform duration-700 group-hover:scale-105">
+                            
+                            <!-- Play Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-transparent transition-colors duration-300 z-10">
+                                <div class="w-14 h-14 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                                    <i class="fas fa-play text-accent text-lg ml-1"></i>
+                                </div>
+                            </div>
+
+                            <!-- Style Label -->
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="px-4 py-1.5 bg-baseBg shadow-md rounded-full text-xs font-bold text-accent">
+                                    Social Native
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-center bg-altBg w-full py-4 px-2 rounded-xl">
+                            <h3 class="text-xl font-bold text-accent mb-1">Talking Head</h3>
+                            <p class="text-muted text-sm font-medium">Captions & clear retention hooks.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="contact" class="py-24 md:py-40 relative overflow-hidden bg-accent">
+        <!-- Abstract graphics behind CTA -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-baseBg rounded-full mix-blend-overlay filter blur-[80px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#3a1d08] rounded-full mix-blend-multiply filter blur-[80px] opacity-40 pointer-events-none transform -translate-x-1/2 translate-y-1/2"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center fade-up">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-baseBg rounded-2xl mb-10 shadow-xl transform -rotate-6">
+                <i class="fas fa-handshake text-4xl text-accent"></i>
+            </div>
+            <h2 class="text-5xl md:text-7xl font-black text-baseBg mb-8 tracking-tighter leading-tight">
+                Ready to elevate your <br/> visual content?
+            </h2>
+            <p class="text-xl md:text-2xl text-baseBg/80 mb-12 max-w-2xl mx-auto font-medium">
+                Let's collaborate to turn your raw footage into an exceptional viewing experience. Contact me to discuss your next project.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://wa.me/213665005205" target="_blank" class="inline-flex items-center justify-center px-12 py-5 text-xl font-black text-accent bg-baseBg rounded-full hover:bg-white hover:scale-105 transition-all duration-300 shadow-2xl">
+                    Book a Call via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-accent/20 bg-altBg py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-8 md:mb-0 text-center md:text-left">
+                <span class="text-3xl font-black tracking-tighter text-accent block mb-2">
+                    Anes<span class="opacity-70">Larbi</span>.
+                </span>
+                <span class="text-sm font-bold text-muted uppercase tracking-widest">Video Editor</span>
+            </div>
+            
+            <div class="flex space-x-8 mb-8 md:mb-0">
+                <a href="https://instagram.com/zazazzaaaz" target="_blank" class="w-12 h-12 rounded-full bg-baseBg flex items-center justify-center text-accent hover:bg-accent hover:text-baseBg transition-all duration-300 shadow-sm" aria-label="Instagram">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="https://twitter.com/zazazzaaaz" target="_blank" class="w-12 h-12 rounded-full bg-baseBg flex items-center justify-center text-accent hover:bg-accent hover:text-baseBg transition-all duration-300 shadow-sm" aria-label="Twitter">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="https://youtube.com/@zazazzaaaz" target="_blank" class="w-12 h-12 rounded-full bg-baseBg flex items-center justify-center text-accent hover:bg-accent hover:text-baseBg transition-all duration-300 shadow-sm" aria-label="YouTube">
+                    <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a href="https://vimeo.com/zazazzaaaz" target="_blank" class="w-12 h-12 rounded-full bg-baseBg flex items-center justify-center text-accent hover:bg-accent hover:text-baseBg transition-all duration-300 shadow-sm" aria-label="Vimeo">
+                    <i class="fab fa-vimeo-v text-xl"></i>
+                </a>
+            </div>
+            
+            <div class="text-sm font-bold text-muted text-center md:text-right">
+                &copy; 2026 Anes Larbi.<br/>All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for animations and interactions -->
+    <script>
+        // Intersection Observer for fade-up animations on scroll
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-up');
+            fadeElements.forEach(el => observer.observe(el));
+            
+            // Trigger animation for elements already in view on load
+            setTimeout(() => {
+                fadeElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 100);
+
+            // Change nav styling on scroll
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2', 'bg-baseBg/90', 'backdrop-blur-md', 'shadow-sm');
+                    nav.classList.remove('py-4', 'glass-nav');
+                } else {
+                    nav.classList.remove('py-2', 'bg-baseBg/90', 'backdrop-blur-md', 'shadow-sm');
+                    nav.classList.add('py-4', 'glass-nav');
+                }
+            });
+
+            // Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuContent = document.getElementById('mobile-menu-content');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                if (isMenuOpen) {
+                    // Open menu
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                    mobileMenuIcon.classList.remove('fa-bars');
+                    mobileMenuIcon.classList.add('fa-times');
+                    setTimeout(() => mobileMenuContent.classList.add('visible'), 100);
+                    document.body.style.overflow = 'hidden'; // Lock background scroll
+                } else {
+                    // Close menu
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuContent.classList.remove('visible');
+                    document.body.style.overflow = ''; // Restore background scroll
+                }
+            }
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMenu);
+            }
+
+            // Close mobile menu when clicking a link
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (isMenuOpen) toggleMenu();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
