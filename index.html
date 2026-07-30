@@ -240,15 +240,8 @@
                 
                 <!-- Project 1 -->
                 <div class="group cursor-pointer">
-                    <div class="video-container aspect-w-16 mb-6">
-                        <!-- Using a placeholder image with a play button overlay for performance, 
-                             in reality, this might be a customized video player or embed -->
-                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop" alt="Project 1 Thumbnail" class="aspect-content rounded-xl transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-accent/10 transition-colors duration-300 z-10">
-                            <div class="w-16 h-16 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                                <i class="fas fa-play text-accent text-xl ml-1"></i>
-                            </div>
-                        </div>
+                    <div class="video-container aspect-w-16 mb-6 overflow-hidden relative">
+                        <iframe src="https://www.youtube.com/embed/av4bse64nFo" title="Project 1" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-2">
@@ -319,8 +312,8 @@
                 <!-- Short Form 1: Cinematic -->
                 <div class="flex flex-col items-center group">
                     <div class="w-full max-w-[320px]">
-                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-transparent group-hover:border-accent/20 transition-all duration-300 overflow-hidden">
-                            <iframe src="https://www.youtube.com/embed/G6Q-_HnIz4k" title="Cinematic Short" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-transparent group-hover:border-accent/20 transition-all duration-300 overflow-hidden relative">
+                            <iframe src="https://www.youtube.com/embed/G6Q-_HnIz4k" title="Cinematic Short" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                         <div class="text-center bg-altBg w-full py-4 px-2 rounded-xl">
                             <h3 class="text-xl font-bold text-accent mb-1">Atmospheric Teaser</h3>
@@ -332,22 +325,8 @@
                 <!-- Short Form 2: Fast-Paced -->
                 <div class="flex flex-col items-center group md:-mt-12"> <!-- Staggered layout on desktop -->
                     <div class="w-full max-w-[320px]">
-                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-accent/30 group-hover:border-accent transition-all duration-300">
-                            <img src="https://images.unsplash.com/photo-1616423640778-28d1b53229bd?q=80&w=1974&auto=format&fit=crop" alt="Fast Paced Short" class="aspect-content transition-transform duration-700 group-hover:scale-105">
-                            
-                            <!-- Play Overlay -->
-                            <div class="absolute inset-0 flex items-center justify-center bg-accent/20 group-hover:bg-transparent transition-colors duration-300 z-10">
-                                <div class="w-14 h-14 rounded-full bg-baseBg flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                                    <i class="fas fa-play text-accent text-lg ml-1"></i>
-                                </div>
-                            </div>
-
-                            <!-- Style Label -->
-                            <div class="absolute top-4 left-4 z-20">
-                                <span class="px-4 py-1.5 bg-accent shadow-md rounded-full text-xs font-bold text-baseBg">
-                                    Fast-Paced
-                                </span>
-                            </div>
+                        <div class="video-container aspect-w-9 mb-6 rounded-3xl shadow-xl border-4 border-accent/30 group-hover:border-accent transition-all duration-300 overflow-hidden relative">
+                            <iframe src="https://www.youtube.com/embed/B2L_nRod1zY" title="Fast Paced Short" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                         <div class="text-center bg-altBg w-full py-4 px-2 rounded-xl">
                             <h3 class="text-xl font-bold text-accent mb-1">Energy Cut</h3>
